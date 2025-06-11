@@ -91,6 +91,66 @@
       \`;
     }
   </script>
+<script>
+  function analizarTexto() {
+    const expresionesSexistas = {
+      "los estudiantes": "el estudiantado / les estudiantes",
+      "los niños": "la niñez / les niñes",
+      "el hombre": "las personas / la humanidad",
+      "los ciudadanos": "la ciudadanía",
+      "los profesores": "el profesorado / les docentes",
+      "los trabajadores": "la fuerza laboral / les trabajadores",
+      "el alumno": "la persona estudiante / le alumne",
+      "los médicos": "el personal médico / les profesionales de la salud",
+      "el jefe": "la persona líder / coordinación",
+      "las mujeres son emocionales": "evitar generalizaciones por género",
+      "los hombres no lloran": "desmitificar estereotipos de género",
+      "ama de casa": "persona que se encarga del hogar"
+    };
+
+    const textoOriginal = document.getElementById("texto").value;
+    let textoMarcado = textoOriginal;
+    let textoCorregido = textoOriginal;
+    let totalPalabras = textoOriginal.split(/\s+/).length;
+    let encontrados = 0;
+    let sugerencias = "";
+
+    for (let sexista in expresionesSexistas) {
+      const regex = new RegExp("\\b" + sexista + "\\b", "gi");
+      const coincidencias = textoOriginal.match(regex);
+      if (coincidencias) {
+        encontrados += coincidencias.length;
+        textoMarcado = textoMarcado.replace(regex, match => `<mark class="bg-yellow-200 font-bold">${match}</mark>`);
+        textoCorregido = textoCorregido.replace(regex, expresionesSexistas[sexista]);
+        sugerencias += `<li><span class="font-semibold text-red-600">${sexista}</span> → <span class="text-green-600">${expresionesSexistas[sexista]}</span></li>`;
+      }
+    }
+
+    let porcentajeInclusivo = Math.max(0, 100 - Math.round((encontrados / totalPalabras) * 100));
+    const nivelColor = porcentajeInclusivo >= 80 ? 'text-green-600' :
+                        porcentajeInclusivo >= 50 ? 'text-yellow-600' :
+                        'text-red-600';
+
+    document.getElementById("resultado").innerHTML = `
+      <div>
+        <h2 class="text-xl font-bold mb-2">Texto analizado (con marcas):</h2>
+        <p class="bg-gray-100 p-4 rounded-lg border border-gray-200">${textoMarcado}</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold mb-2">Texto sugerido (inclusivo):</h2>
+        <p class="bg-green-50 p-4 rounded-lg border border-green-200">${textoCorregido}</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold mb-2">Sugerencias:</h2>
+        <ul class="list-disc list-inside text-sm">${sugerencias || "<li>No se encontraron expresiones problemáticas.</li>"}</ul>
+      </div>
+
+      <div class="text-lg font-bold mt-4">Nivel de inclusión: <span class="${nivelColor}">${porcentajeInclusivo}%</span></div>
+    `;
+  }
+</script>
 
 </body>
 </html>
