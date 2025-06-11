@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lenguaje para todos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-yellow-100 to-lilac-100 text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+
+  <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-4xl border border-pink-200">
+    <div class="flex items-center justify-center gap-4 mb-6">
+      <i class="fas fa-language text-4xl text-pink-500"></i>
+      <h1 class="text-4xl font-extrabold text-center text-pink-600">Lenguaje para todos</h1>
+    </div>
+
+    <p class="mb-6 text-center text-lg text-gray-600">Pega tu texto y descubre cómo hacerlo más inclusivo, moderno y libre de sesgos sexistas.</p>
+
+    <textarea id="texto" class="w-full p-4 border border-gray-300 rounded-xl mb-6 shadow-sm" rows="10" placeholder="Escribe o pega tu texto aquí..."></textarea>
+
+    <div class="flex justify-center">
+      <button onclick="analizarTexto()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-xl shadow-md transition">
+        <i class="fas fa-magic mr-2"></i>Analizar texto
+      </button>
+    </div>
+
+    <div id="resultado" class="mt-10 space-y-6"></div>
+  </div>
+
+  <script>
+    const expresionesSexistas = {
+      "los estudiantes": "el estudiantado / les estudiantes",
+      "los niños": "la niñez / les niñes",
+      "el hombre": "las personas / la humanidad",
+      "los ciudadanos": "la ciudadanía",
+      "los profesores": "el profesorado / les docentes",
+      "los trabajadores": "la fuerza laboral / les trabajadores",
+      "el alumno": "la persona estudiante / le alumne",
+      "los médicos": "el personal médico / les profesionales de la salud",
+      "el jefe": "la persona líder / coordinación",
+      "las mujeres son emocionales": "evitar generalizaciones por género",
+      "los hombres no lloran": "desmitificar estereotipos de género",
+      "ama de casa": "persona que se encarga del hogar",
+      "hombre de negocios": "persona de negocios / profesional",
+      "las niñas deben ser delicadas": "evitar estereotipos de género"
+    };
+
+    function analizarTexto() {
+      const textoOriginal = document.getElementById("texto").value;
+      let textoMarcado = textoOriginal;
+      let textoCorregido = textoOriginal;
+      let totalPalabras = textoOriginal.split(/\s+/).filter(Boolean).length;
+      let encontrados = 0;
+      let sugerencias = "";
+
+      for (let sexista in expresionesSexistas) {
+        const regex = new RegExp("\\b" + sexista + "\\b", "gi");
+        const coincidencias = textoOriginal.match(regex);
+        if (coincidencias) {
+          encontrados += coincidencias.length;
+          textoMarcado = textoMarcado.replace(regex, match => \`<mark class="bg-yellow-200 font-bold rounded px-1">\${match}</mark>\`);
+          textoCorregido = textoCorregido.replace(regex, expresionesSexistas[sexista]);
+          sugerencias += \`<li><i class="fas fa-exclamation-circle text-red-400 mr-1"></i><strong class="text-red-600">\${sexista}</strong> → <span class="text-green-600">\${expresionesSexistas[sexista]}</span></li>\`;
+        }
+      }
+
+      let porcentajeInclusivo = Math.max(0, 100 - Math.round((encontrados / totalPalabras) * 100));
+      const nivelColor = porcentajeInclusivo >= 80 ? 'text-green-600' :
+                         porcentajeInclusivo >= 50 ? 'text-yellow-600' :
+                         'text-red-600';
+
+      document.getElementById("resultado").innerHTML = \`
+        <div>
+          <h2 class="text-2xl font-bold mb-2 text-purple-700"><i class="fas fa-highlighter mr-2"></i>Texto con marcas:</h2>
+          <p class="bg-gray-50 p-4 rounded-xl border border-gray-200 whitespace-pre-wrap">\${textoMarcado}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold mb-2 text-green-700"><i class="fas fa-check-circle mr-2"></i>Texto sugerido:</h2>
+          <p class="bg-green-50 p-4 rounded-xl border border-green-200 whitespace-pre-wrap">\${textoCorregido}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold mb-2 text-pink-700"><i class="fas fa-lightbulb mr-2"></i>Sugerencias:</h2>
+          <ul class="list-disc list-inside text-sm space-y-1">\${sugerencias || "<li>No se encontraron expresiones problemáticas.</li>"}</ul>
+        </div>
+
+        <div class="text-lg font-bold mt-4">Nivel de inclusión: <span class="\${nivelColor}">\${porcentajeInclusivo}%</span></div>
+      \`;
+    }
+  </script>
+
+</body>
+</html>
