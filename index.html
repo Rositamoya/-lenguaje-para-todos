@@ -30,142 +30,71 @@
   </div>
 
   <script>
-    ,
-const expresionesSexistas = {
-  // Formas genéricas masculinas
-  "los estudiantes": "el estudiantado / les estudiantes",
-  "los niños": "la niñez / les niñes",
-  "el hombre": "las personas / la humanidad",
-  "los ciudadanos": "la ciudadanía",
-  "los profesores": "el profesorado / les docentes",
-  "los trabajadores": "la fuerza laboral / les trabajadores",
-  "los médicos": "el personal médico / les profesionales de la salud",
-  "el alumno": "la persona estudiante / le alumne",
-  "el jefe": "la persona líder / coordinación",
-  "el presidente": "la persona que preside / presidencia",
-  "el secretario": "la persona encargada de la secretaría",
-  "el director": "la dirección / la persona a cargo",
 
-  // Estereotipos de género
-  "las mujeres son emocionales": "evitar generalizaciones por género",
-  "los hombres son racionales": "evitar estereotipos de género",
-  "los hombres no lloran": "los hombres también tienen derecho a expresar emociones",
-  "las mujeres no saben conducir": "evitar juicios sexistas sin base real",
-  "ser hombre es no llorar": "las emociones no tienen género",
-  "el rol de la mujer es cuidar el hogar": "los cuidados son responsabilidad compartida",
-  "las niñas deben ser delicadas": "todas las personas pueden ser como deseen",
-  "los hombres traen el sustento al hogar": "la provisión económica no depende del género",
-  "los hombres son fuertes, las mujeres débiles": "evitar dicotomías que limitan el desarrollo individual",
-  "las mujeres con escote no se respetan": "el respeto no depende de la vestimenta",
-  "lloras como niña": "evitar el uso peyorativo de lo femenino",
-  "eso es cosa de hombres": "evitar exclusiones por género",
-  "eso no es para mujeres": "las capacidades no dependen del género",
-  "las mujeres no entienden de política": "la participación no tiene género",
-  "las mujeres hablan mucho": "evitar estigmas de género",
-  "los hombres son más inteligentes": "falso y sexista, evita generalizaciones",
-
-  // Roles y profesiones
-  "ama de casa": "persona que se encarga del hogar",
-  "hombre de negocios": "persona de negocios",
-  "hombre de ciencia": "persona científica",
-  "hombre de campo": "persona campesina",
-  "hombre de bien": "persona íntegra",
-
-  // Frases comunes sexistas
-  "pareces una nena": "evitar el uso peyorativo de lo femenino",
-  "deberías vestirte más femenina": "la expresión personal no debe ser controlada por otros",
-  "así no te va a respetar un hombre": "el respeto no depende del género ni la ropa",
-  "una mujer debe saber cocinar": "los oficios no tienen género",
-  "una mujer debe ser recatada": "evitar imponer estereotipos de conducta",
-  "no seas marica": "expresión homofóbica y machista, evitar",
-  "actúas como una histérica": "evitar patologizar la emoción femenina",
-  "las mujeres son conflictivas": "no generalizar según el género",
-  "los hombres deben proteger a las mujeres": "relaciones deben basarse en igualdad, no en paternalismo",
-  "ella es una mujer fácil": "evitar juzgar conductas desde la moral sexual",
-  "se viste así para llamar la atención": "evitar juicios sobre la autonomía corporal",
-
-  // estereotipos de género, roles tradicionales y lenguaje machista normalizado
-  "ustedes están mejor en casa": "evitar asignar el espacio del hogar exclusivamente a mujeres",
-"la naturaleza de las cosas": "cuestionar discursos naturalizados que justifican desigualdad",
-"los hombres estamos hechos para el trabajo duro": "desmitificar roles masculinos impuestos",
-"ustedes están hechas para cuidar y para el hogar": "evitar imponer roles de género tradicionales",
-"es la forma en que siempre ha sido": "evitar justificar estereotipos por tradición",
-"las mujeres brillan en casa": "romper con la idea de que su valor está en lo doméstico",
-"la ambición tiene límites para las mujeres": "evitar minimizar el deseo de superación femenina",
-"los hombres deben proveer": "evitar imponer el rol económico masculino",
-"las mujeres se sienten más cómodas en casa": "cuestionar discursos que limitan su desarrollo",
-"no es desprecio, es solo la realidad": "cuidado con discursos disfrazados de objetividad",
-"chicas": "usar lenguaje igualitario como 'personas', 'grupo', 'ustedes'"
-
-
-};
-
-
-    function analizarTexto() {
-      const textoOriginal = document.getElementById("texto").value;
-      let textoMarcado = textoOriginal;
-      let textoCorregido = textoOriginal;
-      let totalPalabras = textoOriginal.split(/\s+/).filter(Boolean).length;
-      let encontrados = 0;
-      let sugerencias = "";
-
-      for (let sexista in expresionesSexistas) {
-        const regex = new RegExp("\\b" + sexista + "\\b", "gi");
-        const coincidencias = textoOriginal.match(regex);
-        if (coincidencias) {
-          encontrados += coincidencias.length;
-          textoMarcado = textoMarcado.replace(regex, match => \`<mark class="bg-yellow-200 font-bold rounded px-1">\${match}</mark>\`);
-          textoCorregido = textoCorregido.replace(regex, expresionesSexistas[sexista]);
-          sugerencias += \`<li><i class="fas fa-exclamation-circle text-red-400 mr-1"></i><strong class="text-red-600">\${sexista}</strong> → <span class="text-green-600">\${expresionesSexistas[sexista]}</span></li>\`;
-        }
-      }
-
-      let porcentajeInclusivo = Math.max(0, 100 - Math.round((encontrados / totalPalabras) * 100));
-      const nivelColor = porcentajeInclusivo >= 80 ? 'text-green-600' :
-                         porcentajeInclusivo >= 50 ? 'text-yellow-600' :
-                         'text-red-600';
-
-      document.getElementById("resultado").innerHTML = \`
-        <div>
-          <h2 class="text-2xl font-bold mb-2 text-purple-700"><i class="fas fa-highlighter mr-2"></i>Texto con marcas:</h2>
-          <p class="bg-gray-50 p-4 rounded-xl border border-gray-200 whitespace-pre-wrap">\${textoMarcado}</p>
-        </div>
-
-        <div>
-          <h2 class="text-2xl font-bold mb-2 text-green-700"><i class="fas fa-check-circle mr-2"></i>Texto sugerido:</h2>
-          <p class="bg-green-50 p-4 rounded-xl border border-green-200 whitespace-pre-wrap">\${textoCorregido}</p>
-        </div>
-
-        <div>
-          <h2 class="text-2xl font-bold mb-2 text-pink-700"><i class="fas fa-lightbulb mr-2"></i>Sugerencias:</h2>
-          <ul class="list-disc list-inside text-sm space-y-1">\${sugerencias || "<li>No se encontraron expresiones problemáticas.</li>"}</ul>
-        </div>
-
-        <div class="text-lg font-bold mt-4">Nivel de inclusión: <span class="\${nivelColor}">\${porcentajeInclusivo}%</span></div>
-      \`;
-    }
-  </script>
 <script>
-  function analizarTexto() {
-    const expresionesSexistas = {
-      "los estudiantes": "el estudiantado / les estudiantes",
-      "los niños": "la niñez / les niñes",
-      "el hombre": "las personas / la humanidad",
-      "los ciudadanos": "la ciudadanía",
-      "los profesores": "el profesorado / les docentes",
-      "los trabajadores": "la fuerza laboral / les trabajadores",
-      "el alumno": "la persona estudiante / le alumne",
-      "los médicos": "el personal médico / les profesionales de la salud",
-      "el jefe": "la persona líder / coordinación",
-      "las mujeres son emocionales": "evitar generalizaciones por género",
-      "los hombres no lloran": "desmitificar estereotipos de género",
-      "ama de casa": "persona que se encarga del hogar"
-    };
+  const expresionesSexistas = {
+    "los estudiantes": "el estudiantado / les estudiantes",
+    "los niños": "la niñez / les niñes",
+    "el hombre": "las personas / la humanidad",
+    "los ciudadanos": "la ciudadanía",
+    "los profesores": "el profesorado / les docentes",
+    "los trabajadores": "la fuerza laboral / les trabajadores",
+    "los médicos": "el personal médico / les profesionales de la salud",
+    "el alumno": "la persona estudiante / le alumne",
+    "el jefe": "la persona líder / coordinación",
+    "el presidente": "la persona que preside / presidencia",
+    "el secretario": "la persona encargada de la secretaría",
+    "el director": "la dirección / la persona a cargo",
+    "las mujeres son emocionales": "evitar generalizaciones por género",
+    "los hombres son racionales": "evitar estereotipos de género",
+    "los hombres no lloran": "los hombres también tienen derecho a expresar emociones",
+    "las mujeres no saben conducir": "evitar juicios sexistas sin base real",
+    "ser hombre es no llorar": "las emociones no tienen género",
+    "el rol de la mujer es cuidar el hogar": "los cuidados son responsabilidad compartida",
+    "las niñas deben ser delicadas": "todas las personas pueden ser como deseen",
+    "los hombres traen el sustento al hogar": "la provisión económica no depende del género",
+    "los hombres son fuertes, las mujeres débiles": "evitar dicotomías que limitan el desarrollo individual",
+    "las mujeres con escote no se respetan": "el respeto no depende de la vestimenta",
+    "lloras como niña": "evitar el uso peyorativo de lo femenino",
+    "eso es cosa de hombres": "evitar exclusiones por género",
+    "eso no es para mujeres": "las capacidades no dependen del género",
+    "las mujeres no entienden de política": "la participación no tiene género",
+    "las mujeres hablan mucho": "evitar estigmas de género",
+    "los hombres son más inteligentes": "falso y sexista, evita generalizaciones",
+    "ama de casa": "persona que se encarga del hogar",
+    "hombre de negocios": "persona de negocios",
+    "hombre de ciencia": "persona científica",
+    "hombre de campo": "persona campesina",
+    "hombre de bien": "persona íntegra",
+    "pareces una nena": "evitar el uso peyorativo de lo femenino",
+    "deberías vestirte más femenina": "la expresión personal no debe ser controlada por otros",
+    "así no te va a respetar un hombre": "el respeto no depende del género ni la ropa",
+    "una mujer debe saber cocinar": "los oficios no tienen género",
+    "una mujer debe ser recatada": "evitar imponer estereotipos de conducta",
+    "no seas marica": "expresión homofóbica y machista, evitar",
+    "actúas como una histérica": "evitar patologizar la emoción femenina",
+    "las mujeres son conflictivas": "no generalizar según el género",
+    "los hombres deben proteger a las mujeres": "relaciones deben basarse en igualdad, no en paternalismo",
+    "ella es una mujer fácil": "evitar juzgar conductas desde la moral sexual",
+    "se viste así para llamar la atención": "evitar juicios sobre la autonomía corporal",
+    "ustedes están mejor en casa": "evitar asignar el espacio del hogar exclusivamente a mujeres",
+    "la naturaleza de las cosas": "cuestionar discursos naturalizados que justifican desigualdad",
+    "los hombres estamos hechos para el trabajo duro": "desmitificar roles masculinos impuestos",
+    "ustedes están hechas para cuidar y para el hogar": "evitar imponer roles de género tradicionales",
+    "es la forma en que siempre ha sido": "evitar justificar estereotipos por tradición",
+    "las mujeres brillan en casa": "romper con la idea de que su valor está en lo doméstico",
+    "la ambición tiene límites para las mujeres": "evitar minimizar el deseo de superación femenina",
+    "los hombres deben proveer": "evitar imponer el rol económico masculino",
+    "las mujeres se sienten más cómodas en casa": "cuestionar discursos que limitan su desarrollo",
+    "no es desprecio, es solo la realidad": "cuidado con discursos disfrazados de objetividad",
+    "chicas": "usar lenguaje igualitario como 'personas', 'grupo', 'ustedes'"
+  };
 
+  function analizarTexto() {
     const textoOriginal = document.getElementById("texto").value;
     let textoMarcado = textoOriginal;
     let textoCorregido = textoOriginal;
-    let totalPalabras = textoOriginal.split(/\s+/).length;
+    let totalPalabras = textoOriginal.split(/\s+/).filter(Boolean).length;
     let encontrados = 0;
     let sugerencias = "";
 
@@ -176,7 +105,7 @@ const expresionesSexistas = {
         encontrados += coincidencias.length;
         textoMarcado = textoMarcado.replace(regex, match => `<mark class="bg-yellow-200 font-bold">${match}</mark>`);
         textoCorregido = textoCorregido.replace(regex, expresionesSexistas[sexista]);
-        sugerencias += `<li><span class="font-semibold text-red-600">${sexista}</span> → <span class="text-green-600">${expresionesSexistas[sexista]}</span></li>`;
+        sugerencias += `<li><strong class="text-red-600">${sexista}</strong> → <span class="text-green-600">${expresionesSexistas[sexista]}</span></li>`;
       }
     }
 
@@ -187,18 +116,18 @@ const expresionesSexistas = {
 
     document.getElementById("resultado").innerHTML = `
       <div>
-        <h2 class="text-xl font-bold mb-2">Texto analizado (con marcas):</h2>
-        <p class="bg-gray-100 p-4 rounded-lg border border-gray-200">${textoMarcado}</p>
+        <h2 class="text-2xl font-bold mb-2 text-purple-700"><i class="fas fa-highlighter mr-2"></i>Texto con marcas:</h2>
+        <p class="bg-gray-50 p-4 rounded-xl border border-gray-200 whitespace-pre-wrap">${textoMarcado}</p>
       </div>
 
       <div>
-        <h2 class="text-xl font-bold mb-2">Texto sugerido (inclusivo):</h2>
-        <p class="bg-green-50 p-4 rounded-lg border border-green-200">${textoCorregido}</p>
+        <h2 class="text-2xl font-bold mb-2 text-green-700"><i class="fas fa-check-circle mr-2"></i>Texto sugerido:</h2>
+        <p class="bg-green-50 p-4 rounded-xl border border-green-200 whitespace-pre-wrap">${textoCorregido}</p>
       </div>
 
       <div>
-        <h2 class="text-xl font-bold mb-2">Sugerencias:</h2>
-        <ul class="list-disc list-inside text-sm">${sugerencias || "<li>No se encontraron expresiones problemáticas.</li>"}</ul>
+        <h2 class="text-2xl font-bold mb-2 text-pink-700"><i class="fas fa-lightbulb mr-2"></i>Sugerencias:</h2>
+        <ul class="list-disc list-inside text-sm space-y-1">${sugerencias || "<li>No se encontraron expresiones problemáticas.</li>"}</ul>
       </div>
 
       <div class="text-lg font-bold mt-4">Nivel de inclusión: <span class="${nivelColor}">${porcentajeInclusivo}%</span></div>
