@@ -30,22 +30,62 @@
   </div>
 
   <script>
-    const expresionesSexistas = {
-      "los estudiantes": "el estudiantado / les estudiantes",
-      "los niños": "la niñez / les niñes",
-      "el hombre": "las personas / la humanidad",
-      "los ciudadanos": "la ciudadanía",
-      "los profesores": "el profesorado / les docentes",
-      "los trabajadores": "la fuerza laboral / les trabajadores",
-      "el alumno": "la persona estudiante / le alumne",
-      "los médicos": "el personal médico / les profesionales de la salud",
-      "el jefe": "la persona líder / coordinación",
-      "las mujeres son emocionales": "evitar generalizaciones por género",
-      "los hombres no lloran": "desmitificar estereotipos de género",
-      "ama de casa": "persona que se encarga del hogar",
-      "hombre de negocios": "persona de negocios / profesional",
-      "las niñas deben ser delicadas": "evitar estereotipos de género"
-    };
+    ,
+const expresionesSexistas = {
+  // Formas genéricas masculinas
+  "los estudiantes": "el estudiantado / les estudiantes",
+  "los niños": "la niñez / les niñes",
+  "el hombre": "las personas / la humanidad",
+  "los ciudadanos": "la ciudadanía",
+  "los profesores": "el profesorado / les docentes",
+  "los trabajadores": "la fuerza laboral / les trabajadores",
+  "los médicos": "el personal médico / les profesionales de la salud",
+  "el alumno": "la persona estudiante / le alumne",
+  "el jefe": "la persona líder / coordinación",
+  "el presidente": "la persona que preside / presidencia",
+  "el secretario": "la persona encargada de la secretaría",
+  "el director": "la dirección / la persona a cargo",
+
+  // Estereotipos de género
+  "las mujeres son emocionales": "evitar generalizaciones por género",
+  "los hombres son racionales": "evitar estereotipos de género",
+  "los hombres no lloran": "los hombres también tienen derecho a expresar emociones",
+  "las mujeres no saben conducir": "evitar juicios sexistas sin base real",
+  "ser hombre es no llorar": "las emociones no tienen género",
+  "el rol de la mujer es cuidar el hogar": "los cuidados son responsabilidad compartida",
+  "las niñas deben ser delicadas": "todas las personas pueden ser como deseen",
+  "los hombres traen el sustento al hogar": "la provisión económica no depende del género",
+  "los hombres son fuertes, las mujeres débiles": "evitar dicotomías que limitan el desarrollo individual",
+  "las mujeres con escote no se respetan": "el respeto no depende de la vestimenta",
+  "lloras como niña": "evitar el uso peyorativo de lo femenino",
+  "eso es cosa de hombres": "evitar exclusiones por género",
+  "eso no es para mujeres": "las capacidades no dependen del género",
+  "las mujeres no entienden de política": "la participación no tiene género",
+  "las mujeres hablan mucho": "evitar estigmas de género",
+  "los hombres son más inteligentes": "falso y sexista, evita generalizaciones",
+
+  // Roles y profesiones
+  "ama de casa": "persona que se encarga del hogar",
+  "hombre de negocios": "persona de negocios",
+  "hombre de ciencia": "persona científica",
+  "hombre de campo": "persona campesina",
+  "hombre de bien": "persona íntegra",
+
+  // Frases comunes sexistas
+  "pareces una nena": "evitar el uso peyorativo de lo femenino",
+  "deberías vestirte más femenina": "la expresión personal no debe ser controlada por otros",
+  "así no te va a respetar un hombre": "el respeto no depende del género ni la ropa",
+  "una mujer debe saber cocinar": "los oficios no tienen género",
+  "una mujer debe ser recatada": "evitar imponer estereotipos de conducta",
+  "no seas marica": "expresión homofóbica y machista, evitar",
+  "actúas como una histérica": "evitar patologizar la emoción femenina",
+  "las mujeres son conflictivas": "no generalizar según el género",
+  "los hombres deben proteger a las mujeres": "relaciones deben basarse en igualdad, no en paternalismo",
+  "ella es una mujer fácil": "evitar juzgar conductas desde la moral sexual",
+  "se viste así para llamar la atención": "evitar juicios sobre la autonomía corporal",
+
+};
+
 
     function analizarTexto() {
       const textoOriginal = document.getElementById("texto").value;
